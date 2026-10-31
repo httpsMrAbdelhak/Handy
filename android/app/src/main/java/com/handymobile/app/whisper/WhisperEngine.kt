@@ -6,24 +6,30 @@ internal object WhisperLib {
         System.loadLibrary("handywhisper")
     }
 
-    external fun nativeInit(modelPath: String): Long
+    external fun nativeInit(modelPath: String, libDir: String): Long
     external fun nativeFree(ptr: Long)
-    external fun nativeTranscribe(ptr: Long, threads: Int, language: String, samples: FloatArray): ByteArray?
+    external fun nativeSystemInfo(): String
+    external fun nativeTranscribe(
+        ptr: Long, threads: Int, language: String, prompt: String, fast: Boolean, samples: FloatArray,
+    ): ByteArray?
 }
 
 /** Not thread-safe: call from a single thread (the ViewModel uses a dedicated one). */
 class WhisperEngine {
     private var ctx = 0L
 
-    fun load(modelPath: String) {
+    fun load(modelPath: String, libDir: String) {
         close()
-        ctx = WhisperLib.nativeInit(modelPath)
-        check(ctx != 0L) { "whisper_init failed (corrupt model or not enough memory)" }
+        ctx = WhisperLib.nativeInit(modelPath, libDir)
+        check(ctx != 0L) { "whisper_init failed (corrupt model, no CPU backend or not enough memory)" }
     }
 
-    fun transcribe(samples: FloatArray, language: String, threads: Int): String {
+    /** CPU features / backend variant picked by ggml; valid once a model is loaded. */
+    fun systemInfo(): String = WhisperLib.nativeSystemInfo()
+
+    fun transcribe(samples: FloatArray, language: String, prompt: String?, fast: Boolean, threads: Int): String {
         check(ctx != 0L) { "model not loaded" }
-        val bytes = WhisperLib.nativeTranscribe(ctx, threads, language, samples)
+        val bytes = WhisperLib.nativeTranscribe(ctx, threads, language, prompt.orEmpty(), fast, samples)
             ?: error("whisper_full failed")
         return String(bytes, Charsets.UTF_8).trim()
     }

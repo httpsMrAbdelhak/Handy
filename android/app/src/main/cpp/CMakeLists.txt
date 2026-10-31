@@ -10,8 +10,12 @@ if(NOT EXISTS "${WHISPER_DIR}/CMakeLists.txt")
     message(FATAL_ERROR "whisper.cpp missing. Run android/scripts/fetch-whisper.sh first.")
 endif()
 
-# Static whisper + ggml, linked into a single libhandywhisper.so (CPU only).
-set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+# Shared whisper + ggml with runtime-selected CPU backend variants: ggml builds
+# several libggml-cpu-android_armv8.*.so modules (dotprod, fp16, i8mm, ...) and
+# picks the best one the device supports when they are loaded (CPU only).
+set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
+set(GGML_BACKEND_DL ON CACHE BOOL "" FORCE)
+set(GGML_CPU_ALL_VARIANTS ON CACHE BOOL "" FORCE)
 set(WHISPER_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(WHISPER_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(WHISPER_BUILD_SERVER OFF CACHE BOOL "" FORCE)

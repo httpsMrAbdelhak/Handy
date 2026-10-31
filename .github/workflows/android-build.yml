@@ -31,17 +31,25 @@ jobs:
       - name: Fetch whisper.cpp (pinned)
         run: ./scripts/fetch-whisper.sh
 
-      - name: Verify pinned model checksum
+      - name: Verify pinned model checksums
         run: |
           set -euo pipefail
-          SHA=$(grep -oP 'SHA256 = "\K[0-9a-f]{64}' app/src/main/java/com/handymobile/app/model/ModelManager.kt)
-          SIZE=$(grep -oP 'SIZE_BYTES = \K[0-9_]+' app/src/main/java/com/handymobile/app/model/ModelManager.kt | tr -d _)
-          URL=$(grep -oP 'URL = "\Khttps[^"]+' app/src/main/java/com/handymobile/app/model/ModelManager.kt)
-          curl -fsSL -o /tmp/model.bin "$URL"
-          echo "size=$(stat -c %s /tmp/model.bin) expected=$SIZE"
-          echo "sha256=$(sha256sum /tmp/model.bin | cut -d' ' -f1) expected=$SHA"
-          [ "$(stat -c %s /tmp/model.bin)" = "$SIZE" ]
-          echo "$SHA  /tmp/model.bin" | sha256sum -c -
+          python3 - <<'PY'
+          import re, hashlib, urllib.request, sys
+          src = open("app/src/main/java/com/handymobile/app/model/ModelManager.kt").read()
+          models = re.findall(r'\("(ggml-[^"]+)",\s*([0-9_]+)L,\s*"([0-9a-f]{64})"', src)
+          assert models, "no models found"
+          for name, size, sha in models:
+              size = int(size.replace("_", ""))
+              url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/" + name
+              h = hashlib.sha256(); n = 0
+              with urllib.request.urlopen(url) as r:
+                  while chunk := r.read(1 << 20):
+                      h.update(chunk); n += len(chunk)
+              print(f"{name}: size={n} expected={size} sha256={h.hexdigest()} expected={sha}")
+              if n != size or h.hexdigest() != sha:
+                  sys.exit(f"{name}: size or checksum mismatch")
+          PY
 
       - name: Accept Android SDK licenses
         run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true

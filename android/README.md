@@ -2,7 +2,11 @@
 
 Application Android native (Kotlin + Jetpack Compose), développée dans le dossier `android/` de ce dépôt. L'application de bureau Handy n'est pas modifiée.
 
-**État : Phase 0.** Le projet est un squelette : un écran affiche la version, la version d'Android et l'appareil. Il n'y a ni dictée, ni whisper.cpp, ni bouton flottant, ni accessibilité pour l'instant.
+**État : Phase 2.** Dictée hors ligne avec whisper.cpp (v1.9.5, CPU), modèles Whisper Tiny et Base q5_1 au choix, comparaison des modèles sur un même enregistrement, dictionnaire personnalisé, modes Darija + français / Auto / Français / Arabe classique / Anglais. Pas encore de bouton flottant ni d'accessibilité.
+
+whisper.cpp n'est pas versionné ici : `android/scripts/fetch-whisper.sh` le récupère à une version épinglée (le workflow l'exécute).
+
+**Darija :** Whisper n'a pas de modèle darija dédié. Le mode « Darija + français » utilise la langue arabe avec une phrase d'amorce en dialecte algérien mêlé de français, plus ton dictionnaire. C'est un biais de style, pas une garantie : la qualité réelle est à mesurer avec l'onglet Comparer.
 
 ## Contraintes du projet
 

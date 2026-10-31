@@ -11,8 +11,8 @@ android {
         applicationId = "com.handymobile.app"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
-        versionName = "0.1.0-phase1"
+        versionCode = 3
+        versionName = "0.2.0-phase2"
 
         ndk {
             abiFilters += "arm64-v8a"
@@ -57,6 +57,8 @@ android {
     }
 
     packaging {
+        // ggml loads its CPU backend variants (libggml-cpu-*.so) from the app's lib dir at runtime.
+        jniLibs.useLegacyPackaging = true
         resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
     }
 }

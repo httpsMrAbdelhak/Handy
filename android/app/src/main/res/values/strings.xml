@@ -2,15 +2,15 @@
 <resources>
     <string name="app_name">Handy Mobile</string>
     <string name="model_title">Modèle de reconnaissance</string>
-    <string name="model_missing">Modèle Whisper Tiny (environ 78 Mo) à télécharger une seule fois. Ensuite, tout fonctionne hors ligne.</string>
+    <string name="model_missing">Modèle %1$s (environ %2$d Mo) à télécharger une seule fois. Ensuite, tout fonctionne hors ligne.</string>
     <string name="model_download">Télécharger le modèle</string>
-    <string name="model_downloading">Téléchargement… %1$d %%</string>
+    <string name="model_downloading">Téléchargement de %1$s… %2$d %%</string>
     <string name="model_cancel">Annuler</string>
     <string name="model_loading">Chargement du modèle…</string>
-    <string name="model_ready">Modèle prêt. La transcription fonctionne hors ligne.</string>
+    <string name="model_ready">Modèle prêt : %1$s. La transcription fonctionne hors ligne.</string>
     <string name="model_retry">Réessayer</string>
     <string name="model_redownload">Supprimer et retélécharger</string>
-    <string name="language_title">Langue de dictée</string>
+    <string name="language_title">Langue / mode de dictée</string>
     <string name="lang_fr">Français</string>
     <string name="lang_ar">العربية</string>
     <string name="lang_en">English</string>
@@ -35,4 +35,33 @@
     <string name="err_http">Le serveur du modèle a répondu par une erreur.</string>
     <string name="err_no_space">Espace de stockage insuffisant pour le modèle.</string>
     <string name="err_corrupt">Le fichier téléchargé est corrompu (somme de contrôle incorrecte). Il a été supprimé : relance le téléchargement.</string>
+    <string name="model_tiny">Whisper Tiny (rapide, moins précis)</string>
+    <string name="model_base">Whisper Base, quantifié q5_1 (plus précis)</string>
+    <string name="model_size">%1$d Mo</string>
+    <string name="model_installed">Installé</string>
+    <string name="model_download_short">Télécharger</string>
+    <string name="tab_dictation">Dictée</string>
+    <string name="tab_settings">Réglages</string>
+    <string name="tab_compare">Comparer</string>
+    <string name="mode_darija">Darija + français</string>
+    <string name="mode_auto">Auto</string>
+    <string name="mode_fr">Français</string>
+    <string name="mode_ar">عربية فصحى</string>
+    <string name="mode_en">English</string>
+    <string name="stats_line">%1$s : %2$.1f s pour %3$.1f s d\'audio (×%4$.1f temps réel), RAM de l\'app %5$d Mo</string>
+    <string name="settings_models">Modèle de reconnaissance</string>
+    <string name="settings_fast">Mode rapide</string>
+    <string name="settings_fast_help">Réduit le contexte de l\'encodeur à la durée réelle de l\'audio et désactive les nouvelles tentatives. Plus rapide, parfois moins précis : à comparer.</string>
+    <string name="settings_dictionary">Dictionnaire personnalisé</string>
+    <string name="settings_dictionary_help">Une entrée par ligne. « mot » : aide Whisper à le reconnaître. « faux => juste » : remplace exactement ce mot après la transcription. « # » : commentaire.</string>
+    <string name="settings_dictionary_example">chkoun\nwach rak\nle bureau\nchoukran => شكرا</string>
+    <string name="settings_corrections">Appliquer mes corrections</string>
+    <string name="settings_corrections_help">Applique seulement les règles « faux => juste » écrites ci-dessus. Rien d\'autre n\'est modifié.</string>
+    <string name="settings_engine">Moteur (CPU détecté par ggml)</string>
+    <string name="settings_load_time">Chargement du modèle : %1$.1f s</string>
+    <string name="compare_help">Transcrit le dernier enregistrement avec chaque modèle installé, avec les réglages actuels, pour comparer temps et texte. Télécharge les modèles dans Réglages.</string>
+    <string name="compare_run">Comparer sur le dernier enregistrement</string>
+    <string name="compare_no_audio">Fais d\'abord un enregistrement dans l\'onglet Dictée.</string>
+    <string name="compare_running">Test de %1$s…</string>
+    <string name="compare_stats">Transcription %1$.1f s (×%2$.1f temps réel), chargement %3$.1f s, RAM de l\'app %4$d Mo</string>
 </resources>
