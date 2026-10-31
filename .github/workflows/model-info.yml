@@ -1,0 +1,16 @@
+name: Model info (temporary)
+on:
+  push:
+    branches: ["claude/**"]
+    paths: [".github/workflows/model-info.yml"]
+permissions:
+  contents: read
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -fsSL "https://huggingface.co/api/models/ggerganov/whisper.cpp/tree/main" \
+            | jq -r '.[] | select(.path=="ggml-tiny.bin" or .path=="ggml-base-q5_1.bin" or .path=="ggml-base.bin") | "\(.path) size=\(.size) sha256=\(.lfs.oid)"'
+          curl -fsSL -o /tmp/b.bin https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base-q5_1.bin
+          echo "downloaded base-q5_1 size=$(stat -c %s /tmp/b.bin) sha256=$(sha256sum /tmp/b.bin | cut -d' ' -f1)"
