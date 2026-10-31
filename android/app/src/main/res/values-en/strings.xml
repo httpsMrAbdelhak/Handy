@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Handy Mobile</string>
-    <string name="phase_label">Phase 0: application skeleton. No dictation feature yet.</string>
-    <string name="version_label">Version %1$s</string>
-    <string name="android_label">Android %1$s (API %2$d)</string>
-    <string name="device_label">Device: %1$s %2$s</string>
+    <string name="model_title">Recognition model</string>
+    <string name="model_missing">Whisper Tiny model (about 78 MB), downloaded only once. After that everything works offline.</string>
+    <string name="model_download">Download model</string>
+    <string name="model_downloading">Downloading… %1$d %%</string>
+    <string name="model_cancel">Cancel</string>
+    <string name="model_loading">Loading model…</string>
+    <string name="model_ready">Model ready. Transcription works offline.</string>
+    <string name="model_retry">Retry</string>
+    <string name="model_redownload">Delete and re-download</string>
+    <string name="language_title">Dictation language</string>
+    <string name="lang_fr">Français</string>
+    <string name="lang_ar">العربية</string>
+    <string name="lang_en">English</string>
+    <string name="btn_start">Start</string>
+    <string name="btn_stop">Stop</string>
+    <string name="recording_now">Recording… %1$s</string>
+    <string name="transcribing">Transcribing…</string>
+    <string name="result_title">Recognized text</string>
+    <string name="result_hint">The recognized text will appear here.</string>
+    <string name="open_settings">Open settings</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="err_mic_denied">Microphone permission denied. It is required to record.</string>
+    <string name="err_mic_denied_permanent">Microphone permission permanently denied. Enable it in the app settings.</string>
+    <string name="err_mic">Microphone problem (already in use by another app?).</string>
+    <string name="err_too_short">Recording too short. Speak for at least half a second.</string>
+    <string name="err_no_speech">No speech recognized.</string>
+    <string name="err_background">Recording cancelled: the app went to the background.</string>
+    <string name="err_load">Could not load the model (corrupt file or not enough memory).</string>
+    <string name="err_low_memory">Not enough free memory to load the model. Close other apps and retry.</string>
+    <string name="err_transcribe">Transcription failed.</string>
+    <string name="err_network">Download interrupted. Check your connection and retry: it will resume where it stopped.</string>
+    <string name="err_http">The model server returned an error.</string>
+    <string name="err_no_space">Not enough storage space for the model.</string>
+    <string name="err_corrupt">The downloaded file is corrupt (checksum mismatch). It was deleted: start the download again.</string>
 </resources>

@@ -1,63 +1,72 @@
 package com.handymobile.app
 
-import android.os.Build
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.core.content.ContextCompat
+import com.handymobile.app.ui.Actions
+import com.handymobile.app.ui.MainScreen
 
 class MainActivity : ComponentActivity() {
+    private val vm: MainViewModel by viewModels()
+
+    private val micPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) {
+                vm.startRecording()
+            } else {
+                vm.onMicDenied(!shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO))
+            }
+        }
+
+    private fun onStartClicked() {
+        val granted = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) ==
+            PackageManager.PERMISSION_GRANTED
+        if (granted) vm.startRecording() else micPermission.launch(Manifest.permission.RECORD_AUDIO)
+    }
+
+    private fun openAppSettings() {
+        startActivity(
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", packageName, null)),
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val actions = Actions(
+            onDownload = vm::downloadModel,
+            onCancelDownload = vm::cancelDownload,
+            onRetryLoad = vm::retryLoad,
+            onRedownload = vm::redownload,
+            onLanguage = vm::setLanguage,
+            onStart = ::onStartClicked,
+            onStop = vm::stopRecording,
+            onOpenSettings = ::openAppSettings,
+            onDismissError = vm::dismissError,
+        )
         setContent {
             MaterialTheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    StatusScreen()
+                Surface {
+                    val state by vm.state.collectAsState()
+                    MainScreen(state, actions)
                 }
             }
         }
     }
-}
 
-@Composable
-private fun StatusScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            text = stringResource(R.string.app_name),
-            style = MaterialTheme.typography.headlineMedium,
-        )
-        Text(
-            text = stringResource(R.string.phase_label),
-            style = MaterialTheme.typography.bodyLarge,
-        )
-        Text(
-            text = stringResource(R.string.version_label, BuildConfig.VERSION_NAME),
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        Text(
-            text = stringResource(R.string.android_label, Build.VERSION.RELEASE, Build.VERSION.SDK_INT),
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        Text(
-            text = stringResource(R.string.device_label, Build.MANUFACTURER, Build.MODEL),
-            style = MaterialTheme.typography.bodyMedium,
-        )
+    override fun onStop() {
+        super.onStop()
+        vm.onAppBackgrounded()
     }
 }

@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Handy Mobile</string>
-    <string name="phase_label">Phase 0 : squelette de l\'application. Aucune fonction de dictée pour l\'instant.</string>
-    <string name="version_label">Version %1$s</string>
-    <string name="android_label">Android %1$s (API %2$d)</string>
-    <string name="device_label">Appareil : %1$s %2$s</string>
+    <string name="model_title">Modèle de reconnaissance</string>
+    <string name="model_missing">Modèle Whisper Tiny (environ 78 Mo) à télécharger une seule fois. Ensuite, tout fonctionne hors ligne.</string>
+    <string name="model_download">Télécharger le modèle</string>
+    <string name="model_downloading">Téléchargement… %1$d %%</string>
+    <string name="model_cancel">Annuler</string>
+    <string name="model_loading">Chargement du modèle…</string>
+    <string name="model_ready">Modèle prêt. La transcription fonctionne hors ligne.</string>
+    <string name="model_retry">Réessayer</string>
+    <string name="model_redownload">Supprimer et retélécharger</string>
+    <string name="language_title">Langue de dictée</string>
+    <string name="lang_fr">Français</string>
+    <string name="lang_ar">العربية</string>
+    <string name="lang_en">English</string>
+    <string name="btn_start">Démarrer</string>
+    <string name="btn_stop">Arrêter</string>
+    <string name="recording_now">Enregistrement… %1$s</string>
+    <string name="transcribing">Transcription en cours…</string>
+    <string name="result_title">Texte reconnu</string>
+    <string name="result_hint">Le texte reconnu apparaîtra ici.</string>
+    <string name="open_settings">Ouvrir les réglages</string>
+    <string name="dismiss">Fermer</string>
+    <string name="err_mic_denied">Autorisation du microphone refusée. Elle est nécessaire pour enregistrer.</string>
+    <string name="err_mic_denied_permanent">Autorisation du microphone refusée définitivement. Active-la dans les réglages de l\'application.</string>
+    <string name="err_mic">Problème avec le microphone (déjà utilisé par une autre application ?).</string>
+    <string name="err_too_short">Enregistrement trop court. Parle au moins une demi-seconde.</string>
+    <string name="err_no_speech">Aucune parole reconnue.</string>
+    <string name="err_background">Enregistrement annulé : l\'application est passée en arrière-plan.</string>
+    <string name="err_load">Impossible de charger le modèle (fichier corrompu ou mémoire insuffisante).</string>
+    <string name="err_low_memory">Mémoire disponible insuffisante pour charger le modèle. Ferme d\'autres applications puis réessaie.</string>
+    <string name="err_transcribe">La transcription a échoué.</string>
+    <string name="err_network">Téléchargement interrompu. Vérifie la connexion puis relance : il reprendra là où il s\'est arrêté.</string>
+    <string name="err_http">Le serveur du modèle a répondu par une erreur.</string>
+    <string name="err_no_space">Espace de stockage insuffisant pour le modèle.</string>
+    <string name="err_corrupt">Le fichier téléchargé est corrompu (somme de contrôle incorrecte). Il a été supprimé : relance le téléchargement.</string>
 </resources>
